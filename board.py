@@ -28,8 +28,7 @@ class Board:
                 rect = pg.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
                 if tile == '#':
                     pg.draw.rect(surface, DARK_BLUE, rect, border_radius=5)
-                else:
-                    pg.draw.rect(surface, BLACK, rect)
+
 
     def is_road(self, x: int, y: int) -> bool:
         """Returnerer True hvis posisjonen er fri for vegg."""
