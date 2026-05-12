@@ -4,22 +4,27 @@ from constants import *
 class Board:
     def __init__(self):
         self.grid = [
-            "##########",
-            "#..##..#.#",
-            "#.#..#.#.#",
-            "#.#.##.#.#",
-            "#.#....#.#",
-            "#.#.##.#.#",
-            "#.#..#.#.#",
-            "#..##..#.#",
-            "#........#",
-            "##########",
+            "#################",
+            "#...##.....##...#",
+            "#.#.###.###.#.#.#",
+            "#.#...........#.#",
+            "#.#.###.#.###.#.#",
+            "#.....#...#.....#",
+            "###.#.#####.#.###",
+            "#...............#",
+            "###.#.#####.#.###",
+            "#.....#...#.....#",
+            "#.#.###.#.###.#.#",
+            "#.#...........#.#",
+            "#.#.###.###.#.#.#",
+            "#...##.....##...#",
+            "#################",
         ]
         self.rows = len(self.grid)
         self.cols = len(self.grid[0]) if self.rows else 0
 
     def window_size(self):
-        return self.rows*TILE_SIZE, self.cols*TILE_SIZE
+        return self.cols*TILE_SIZE, self.rows*TILE_SIZE
 
     def draw(self, surface):
         """Tegn brettet på den gitte pygame-flaten."""
