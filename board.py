@@ -21,7 +21,7 @@ class Board:
             "#################",
         ]
         self.rows = len(self.grid)
-        self.cols = len(self.grid[0]) if self.rows else 0
+        self.cols = len(self.grid[0])
 
     def window_size(self):
         return self.cols*TILE_SIZE, self.rows*TILE_SIZE
