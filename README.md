@@ -19,4 +19,5 @@ Om dere får til:
 - Er jo fint med animasjon med pacman og spøkelsene (sprites)
 - 2-player game?
 - Bedre brett, med sånn gjennomgang fra høyre til venstre ytterst
-
+- poeng, levels
+- ulike regler for spøkelsene: https://www.youtube.com/watch?v=ataGotQ7ir8 
