@@ -9,8 +9,9 @@ vindu = pg.display.set_mode(board.window_size())
 clock = pg.time.Clock()
 
 
+pacman = PacMan(3, 4)
+
 running = True
-pacman = PacMan(TILE_SIZE*3, TILE_SIZE*4)
 while running:
     for event in pg.event.get():
         if event.type == pg.QUIT:
