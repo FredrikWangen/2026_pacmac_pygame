@@ -1,7 +1,11 @@
 # 2026_pacmac_pygame
 
-Her er oppstarts-kode for å tegne et brett og en pacman. Men dere må gjøre det spillbart! Dere må:
 
+MERK: Dere har flere økter til dette. Bruk tid på å lage noe kult! 
+
+Bruk av AI: Til å lære! Ikke la AI skrive all koden for dere! 
+
+Her er oppstarts-kode for å tegne et brett og en pacman. Men dere må gjøre det spillbart! Dere må:
 - Lage bevegelse for pacman
 - Legge ut "mat" som pacman spiser
 - Store "dotter" som han kan spise, som gjør ham "super"
