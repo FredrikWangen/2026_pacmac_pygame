@@ -1,6 +1,7 @@
 from pathlib import Path
 import pygame as pg
 from constants import *
+from board import Board
 
 class PacMan:
     IMAGE_FILE = Path(__file__).parent / "sprites" / "pacman2.png"
@@ -22,6 +23,15 @@ class PacMan:
         self.row = row
         self.col = col
 
+        mid = TILE_SIZE // 2
+        self.x = col * TILE_SIZE + mid
+        self.y = row * TILE_SIZE + mid
+
+        self.moveAxis = "x"
+        self.nextAxis = "x"
+        self.leftRight = -1
+        self.upDown = -1
+
         self.frames_idle = self.getImageSpriteList(0, 0, 4)
         # Bildet vi skal vise til å starte med er idle:
         self.frames = self.frames_idle
@@ -31,6 +41,65 @@ class PacMan:
         # Om vi vil speile bildet:
         self.venstre = False
 
+
+    def update(self, board: Board):
+        self.rect = self.frames[self.current_frame].get_rect()
+        keys = pg.key.get_pressed()
+        if keys[pg.K_LEFT]:
+            self.nextAxis = "x"
+            self.leftRight = -1
+        if keys[pg.K_RIGHT]:
+            self.nextAxis = "x"
+            self.leftRight = 1
+        if keys[pg.K_DOWN]:
+            self.nextAxis = "y"
+            self.upDown = 1
+        if keys[pg.K_UP]:
+            self.nextAxis = "y"
+            self.upDown = -1
+
+        mid = TILE_SIZE // 2
+        current_row = (self.y - mid) // TILE_SIZE
+        current_col = (self.x - mid) // TILE_SIZE
+
+        at_center_x = abs((self.x - mid) % TILE_SIZE) <= SPEED
+        at_center_y = abs((self.y - mid) % TILE_SIZE) <= SPEED
+
+        if self.nextAxis == "y" and self.moveAxis == "x":
+            target_row = current_row + self.upDown
+            if at_center_x and board.is_road(current_col, target_row):
+                self.x = round((self.x - mid) / TILE_SIZE) * TILE_SIZE + mid
+                self.moveAxis = "y"
+                self.y -= SPEED * self.upDown
+        elif self.nextAxis == "x" and self.moveAxis == "y":
+            target_col = current_col + self.leftRight
+            if at_center_y and board.is_road(target_col, current_row):
+                self.y = round((self.y - mid) / TILE_SIZE) * TILE_SIZE + mid
+                self.moveAxis = "x"
+                self.x -= SPEED * self.leftRight
+
+        if self.moveAxis == "x":
+            target_col = round((self.x - mid) / TILE_SIZE) + self.leftRight
+            if board.is_road(target_col, current_row):
+                self.x += SPEED * self.leftRight
+            else:
+                center_x = round((self.x - mid) / TILE_SIZE) * TILE_SIZE + mid
+                distance_x = center_x - self.x
+                if abs(distance_x) <= SPEED:
+                    self.x = center_x
+                else:
+                    self.x += SPEED * (1 if distance_x > 0 else -1)
+        elif self.moveAxis == "y":
+            target_row = round((self.y - mid) / TILE_SIZE) + self.upDown
+            if board.is_road(current_col, target_row):
+                self.y += SPEED * self.upDown
+            else:
+                center_y = round((self.y - mid) / TILE_SIZE) * TILE_SIZE + mid
+                distance_y = center_y - self.y
+                if abs(distance_y) <= SPEED:
+                    self.y = center_y
+                else:
+                    self.y += SPEED * (1 if distance_y > 0 else -1)
 
 
     def draw(self, surface):
@@ -42,11 +111,8 @@ class PacMan:
         if self.venstre:
             current_frame_image = pg.transform.flip(current_frame_image, True, False)
 
-        # Sørg for at vi tegner midt i "Tile":
-        mid = TILE_SIZE // 2
         rect = current_frame_image.get_rect()
-        rect.center = (self.col * TILE_SIZE + mid , self.row * TILE_SIZE + mid)
-
+        rect.center = (self.x, self.y)
         # Blit images på skjermen (der self.rect befinner seg):
         surface.blit(current_frame_image, rect)
 
