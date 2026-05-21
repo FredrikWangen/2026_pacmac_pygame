@@ -2,6 +2,7 @@ import pygame as pg
 from constants import *
 from board import Board
 from pacman import PacMan
+from ghost import SuperGhost
 
 pg.init()
 board = Board()
@@ -10,7 +11,7 @@ clock = pg.time.Clock()
 
 
 pacman = PacMan(3, 4)
-
+ghost = SuperGhost(3,4)
 running = True
 while running:
     for event in pg.event.get():
@@ -27,9 +28,11 @@ while running:
 
     # Oppdater objektene våre:
     pacman.update(board)
+    ghost.update(board,pacman)
 
     # Tegn objektene våre:
     pacman.draw(vindu)
+    ghost.draw(vindu)
 
 
     # Har alltid disse med til slutt:

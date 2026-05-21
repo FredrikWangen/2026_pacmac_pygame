@@ -34,6 +34,27 @@ class Board:
                 if tile == '#':
                     pg.draw.rect(surface, DARK_BLUE, rect, border_radius=5)
 
+    def tile_from_pos(self,x,y):
+        mid = TILE_SIZE // 2
+        row = (y - mid) // TILE_SIZE
+        col = (x - mid) // TILE_SIZE
+        return (row, col)
+    
+    def neighbors(self, row,col):
+        neighborList = []
+        if row != 0:
+            if self.is_road(col, row - 1):
+                neighborList.append((col,row - 1))
+        if row != self.rows-1:
+            if self.is_road(col, row + 1):
+                neighborList.append((col,row + 1))
+        if col != 0:
+            if self.is_road(col - 1, row):
+                neighborList.append((col - 1,row))
+        if col != self.cols - 1:
+            if self.is_road(col + 1, row):
+                neighborList.append((col + 1,row))
+        return neighborList
 
     def is_road(self, x: int, y: int) -> bool:
         """Returnerer True hvis posisjonen er fri for vegg."""
